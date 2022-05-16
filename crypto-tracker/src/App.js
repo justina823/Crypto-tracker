@@ -5,6 +5,8 @@ import Axios from 'axios';
 import Coin from './components/Coin';
 
 
+
+
 function App() {
   const [listOfCoins, setListOfCoins] = useState([]);
   const [searchWord, setSearchWord] = useState("")
@@ -37,7 +39,11 @@ function App() {
                 <td>
                    Mkt Cap
                 </td>
+                
                 <td>Price</td>
+                
+                
+               
               </tr>
 
             
@@ -49,6 +55,7 @@ function App() {
         return (
 
           <Coin 
+          
             symbol={coin.symbol} 
             name={coin.name} 
             current_price={coin.current_price} 
