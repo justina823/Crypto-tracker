@@ -1,76 +1,31 @@
 
 import './App.css';
-import {useEffect, useState} from 'react'
-import Axios from 'axios';
+import Index from './pages/Index.js';
+import{ BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
+
+import ErrorPage from './pages/ErrorPage';
 import Coin from './components/Coin';
 
 
 
-
 function App() {
-  const [listOfCoins, setListOfCoins] = useState([]);
-  const [searchWord, setSearchWord] = useState("")
-  const filteredCoins = listOfCoins.filter((coin) =>{
-    return coin.name.toLowerCase().includes(searchWord.toLowerCase())
-  })
-  useEffect(()=>{
-    Axios.get("https://api.coingecko.com/api/v3/coins/markets?vs_currency=aud&order=market_cap_desc&page=1&sparkline=false").then((Response)=>{
-      setListOfCoins(Response.data)
-      console.log(Response.data)
-    })
-  },[]);
   return (
-    <div className='AppHeader'>
-      <div className='SearchBar'>
-        <input type="text" placeholder="Search a Crypto Currency..." onChange={(event)=> {
-          setSearchWord(event.target.value)
-        }}/>
+ 
+    <Router>
+      <nav>
+        <Link to='/'>Home</Link>
+        
+      </nav>
+        <Routes>
+          <Route path='/' element={<Index/>}/>
+          <Route path='/coin' element={<Coin/>}>
+            <Route path=':coinId' element={<Coin/>} />
+            </Route>
+          <Route path='/404' element={<ErrorPage/>}/> 
+        </Routes>
+    </Router>
 
-  
-      </div>
-      <div className='content'>
-      <div className='heading'>
-           
-            <table className="heading-table">
-              <tr>
-                <td>
-                  Coin
-                </td>
-                <td>
-                   Mkt Cap
-                </td>
-                
-                <td>Price</td>
-                
-                
-               
-              </tr>
+  )
+}
 
-            
-              
-            </table>      
-           
-            </div>
-        {filteredCoins.map((coin)=>{
-        return (
-
-          <Coin 
-          
-            symbol={coin.symbol} 
-            name={coin.name} 
-            current_price={coin.current_price} 
-            image={coin.image} 
-            market_cap_change_percentage_24h = {coin.market_cap_change_percentage_24h}
-            
-            />
-           
-          );
-        })}
-      </div>
-      
-    </div>
-  );
-  
-}  
-
-export default App;
+export default App
